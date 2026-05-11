@@ -1,0 +1,23 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+.form-container form {
+    width: 500px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.form-container input,
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.form-container textarea {
+    height: 150px;
+}
