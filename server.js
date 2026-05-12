@@ -6,25 +6,29 @@ const session = require('express-session');
 const helmet = require('helmet');
 const cors = require('cors');
 
+// Import routers (Ensure these files exist in your Routes folder)
+const authRoutes = require('./Routes/authRoutes');
+const eventRoutes = require('./Routes/eventRoutes');
+const bookingRoutes = require('./Routes/bookingRoutes');
+const enquiryRoutes = require('./Routes/enquiryRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Basic security and CORS
-app.use(helmet());
+// --- Security and Request Parsing ---
+app.use(helmet()); 
 app.use(cors());
-
-// Body parsers so req.body doesn't come back undefined
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // CRITICAL for parsing form data
 
-// Serve static assets
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static assets from the Public folder
+app.use(express.static(path.join(__dirname, 'Public')));
 
-// Set up EJS view engine
+// View Engine Setup (EJS)
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'Views'));
 
-// Session handling for auth later
+// --- Session Management ---
 app.use(session({
     secret: process.env.SESSION_SECRET || 'wpr381_fallback_secret',
     resave: false,
@@ -32,41 +36,62 @@ app.use(session({
     cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 // 24 hours
+        maxAge: 1000 * 60 * 60 * 24 // 24-hour session
     }
 }));
 
-// DB connection
-const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/eventPlatform';
+// --- GLOBAL VIEW VARIABLES (The Missing Link) ---
+// This makes the logged-in user's data available to every single EJS file
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
+});
+
+// --- Database Connection ---
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/eventPlatform';
 mongoose.connect(dbURI)
-    .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.error('DB Connection Error:', err));
+    .then(() => console.log('✅ MongoDB connected successfully.'))
+    .catch(err => console.error('❌ DB Connection Error:', err));
 
-// Log DB drops just in case
-mongoose.connection.on('error', err => console.log('MongoDB error:', err));
-mongoose.connection.on('disconnected', () => console.log('MongoDB disconnected'));
+// Database monitoring
+mongoose.connection.on('error', err => console.log('⚠️ MongoDB error:', err));
+mongoose.connection.on('disconnected', () => console.log('⚠️ MongoDB disconnected'));
 
-// --- Routes ---
-// TODO: Break these out into separate router files in the /routes folder
+// --- Route Handlers ---
 
-app.get('/', (req, res) => res.render('index'));
-app.get('/login', (req, res) => res.render('login'));
-app.get('/admin', (req, res) => res.render('admin'));
-app.get('/dashboard', (req, res) => res.render('dashboard'));
-app.get('/contact', (req, res) => res.render('contact'));
+// Mount routers
+app.use('/', authRoutes);
+app.use('/', eventRoutes); 
+app.use('/', bookingRoutes);
+app.use('/', enquiryRoutes);
+
+// Temporary Home Route (Until eventRoutes is fully set up)
+app.get('/', (req, res) => {
+    res.render('index', { events: [] }); 
+});
+
+// General Page Renders
+app.get('/event-details', (req, res) => res.render('event-details'));
+
+// --- Error Handling ---
 
 // 404 Catch-all
 app.use((req, res) => {
-    res.status(404).send('404 - Page not found');
+    res.status(404).render('index', { error: '404 - Page not found' });
 });
 
-// Global error handler
+// Global internal server error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    const message = process.env.NODE_ENV === 'production' ? 'Server Error' : err.message;
-    res.status(500).send(message);
+    console.error('🔥 Server Error:', err.stack);
+    
+    const message = process.env.NODE_ENV === 'production' 
+        ? 'Internal Server Error' 
+        : err.message;
+
+    res.status(err.status || 500).send(message);
 });
 
+// --- Server Initialization ---
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🚀 Server is humming at http://localhost:${PORT}`);
 });
