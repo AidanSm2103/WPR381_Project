@@ -12,12 +12,16 @@
     <%- include('partials/navbar') %>
 
     <div class="auth-container">
-        <form class="auth-form">
+        <form
+        class="auth-form"
+        action="/register"
+        method="POST">
             <h2>Create Account</h2>
 
-            <input type="text" placeholder="Full Name">
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
+            <input type="text" name="FName" placeholder="First Name">
+            <input type="text" name="SName" placeholder="Surname">
+            <input type="email" name="Email" placeholder="Email">
+            <input type="password" name="Password" placeholder="Password">
 
             <button type="submit">Register</button>
         </form>

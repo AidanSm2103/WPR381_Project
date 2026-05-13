@@ -13,12 +13,12 @@
     <%- include('partials/navbar') %>
 
     <div class="form-container">
-        <form>
+        <form action="/contact" method="POST">
             <h2>Contact Us</h2>
 
-            <input type="text" placeholder="Your Name">
-            <input type="email" placeholder="Your Email">
-            <textarea placeholder="Your Message"></textarea>
+            <input type="text" name="Name">
+            <input type="email" name="Email">
+            <textarea name="Message"></textarea>
 
             <button type="submit">Send Message</button>
         </form>

@@ -6,6 +6,11 @@ const session = require('express-session');
 const helmet = require('helmet');
 const cors = require('cors');
 
+const Event = require('./DB Models/event');
+const User = require('./DB Models/user');
+const Ticket = require('./DB Models/tickets');
+const Enquiry = require('./DB Models/enquiry');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -49,11 +54,71 @@ mongoose.connection.on('disconnected', () => console.log('MongoDB disconnected')
 // --- Routes ---
 // TODO: Break these out into separate router files in the /routes folder
 
-app.get('/', (req, res) => res.render('index'));
+app.get('/', async (req, res) => {
+    try {
+        const events = await Event.find();
+        res.render('index', {
+            events
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.get('/event/:id', async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        res.render('event-details', {
+            event
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.get('/login', (req, res) => res.render('login'));
+app.post('/login', async (req, res) => {
+    try {
+        const user = await User.findOne({
+            Email: req.body.Email
+        });
+        if (!user) {
+            return res.send('User not found');
+        }
+        res.redirect('/dashboard');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Login Error');
+    }
+});
+
+app.get('/register', (req, res) => res.render('register'));
+app.post('/register', async (req, res) => {
+    try {
+        await User.create(req.body);
+        res.redirect('/login');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Registration Error');
+    }
+});
+
 app.get('/admin', (req, res) => res.render('admin'));
 app.get('/dashboard', (req, res) => res.render('dashboard'));
+
 app.get('/contact', (req, res) => res.render('contact'));
+app.post('/contact', async (req, res) => {
+    try {
+        await Enquiry.create(req.body);
+        res.redirect('/contact');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 // 404 Catch-all
 app.use((req, res) => {

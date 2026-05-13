@@ -32,22 +32,43 @@
 
     <section class="event-container">
 
-        <div class="event-card">
-            <img src="/images/Tech_Conference.jpg" alt="event">
-            <h3>Tech Conference</h3>
-            <p>Date: 15 June 2026</p>
-            <p>Location: Johannesburg</p>
-            <a href="/event/1" class="btn">View Event</a>
-        </div>
+    <% if(events.length > 0) { %>
 
-        <div class="event-card">
-            <img src="/images/Music_Fest.jpeg" alt="event">
-            <h3>Music Festival</h3>
-            <p>Date: 20 July 2026</p>
-            <p>Location: Cape Town</p>
-            <a href="/event/2" class="btn">View Event</a>
-        </div>
-    </section>
+        <% events.forEach(event => { %>
+
+            <div class="event-card">
+                <img src="/images/Tech_Conference.jpg" alt="event">
+
+                <h3><%= event.Title %></h3>
+
+                <p>
+                    Date:
+                    <%= new Date(event.Date).toDateString() %>
+                </p>
+
+                <p>
+                    Location:
+                    <%= event.Venue %>
+                </p>
+
+                <p>
+                    Price: R<%= event.Price %>
+                </p>
+
+                <a href="/event/<%= event._id %>" class="btn">
+                    View Event
+                </a>
+            </div>
+
+        <% }) %>
+
+    <% } else { %>
+
+        <p>No events available.</p>
+
+    <% } %>
+
+</section>
 
     <%- include('partials/footer') %>
 
