@@ -1,4 +1,12 @@
+# Dependencies
 node_modules/
+
+# Environment Variables (Security)
 .env
+
+# Editor Settings
 .vscode/
+
+# System Files
 .DS_Store
+*.log
