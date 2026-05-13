@@ -1,5 +1,113 @@
-<h1>Create Event</h1>
-<form>
-    <input type="text" placeholder="Event Title">
-    <button>Create</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event | Admin Portal</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+    <link rel="stylesheet" href="/CSS/admin.css">
+</head>
+<body class="bg-light">
+    <%- include('../partials/navbar') %>
+
+    <main class="container admin-container">
+        <div class="admin-form-wrapper">
+            <header class="admin-header">
+                <div class="header-content">
+                    <h1>Post New Event</h1>
+                    <p>Configure and publish a new experience to the global platform.</p>
+                </div>
+                <div class="header-badge">Admin Session</div>
+            </header>
+
+            <div class="admin-card shadow-lg animate-in">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="alert alert-error"><%= error %></div>
+                <% } %>
+
+                <form action="/admin/create-event" method="POST" class="modern-form">
+                    
+                    <section class="form-section">
+                        <h3 class="section-title">Event Identity</h3>
+                        <div class="form-group">
+                            <label for="Title">Event Title</label>
+                            <input type="text" id="Title" name="Title" class="form-input" 
+                                   placeholder="e.g. GT3 Endurance Challenge" required>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h3 class="section-title">Schedule & Classification</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="Date">Date & Time</label>
+                                <input type="datetime-local" id="Date" name="Date" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Category">Category</label>
+                                <select id="Category" name="Category" class="form-input" required>
+                                    <option value="Motorsport">Motorsport</option>
+                                    <option value="Photography">Photography</option>
+                                    <option value="Gaming">Gaming</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Music">Music</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h3 class="section-title">Capacity & Pricing</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="Price">Ticket Price (R)</label>
+                                <div class="input-with-icon">
+                                    <span class="icon">R</span>
+                                    <input type="number" id="Price" name="Price" class="form-input" 
+                                           min="0" placeholder="150" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Capacity">Total Capacity</label>
+                                <input type="number" id="Capacity" name="Capacity" class="form-input" 
+                                       min="1" placeholder="50" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h3 class="section-title">Location & Media</h3>
+                        <div class="form-group">
+                            <label for="Venue">Venue / Location</label>
+                            <input type="text" id="Venue" name="Venue" class="form-input" 
+                                   placeholder="e.g. Kyalami Grand Prix Circuit" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ImageURL">Cover Image URL</label>
+                            <input type="url" id="ImageURL" name="ImageURL" class="form-input" 
+                                   placeholder="https://images.unsplash.com/..." required>
+                            <small class="helper-text">High-resolution landscape images (16:9) work best.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Description">Event Description</label>
+                            <textarea id="Description" name="Description" class="form-textarea" 
+                                      rows="4" placeholder="Detail the event itinerary and key highlights..." required></textarea>
+                        </div>
+                    </section>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-publish">
+                            Publish Event 🚀
+                        </button>
+                        <a href="/admin/manage-events" class="btn btn-outline btn-cancel">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../partials/navbar') %>
+</body>
+</html>

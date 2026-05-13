@@ -3,33 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings</title>
-
-    <link rel="stylesheet" href="/css/main.css">
-</head>
+    <title>My Bookings | EventPlatform</title>
+    <link rel="stylesheet" href="/CSS/style.css"> </head>
 <body>
-
     <%- include('partials/navbar') %>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Event</th>
-                    <th>Date</th>
-                    <th>Tickets</th>
-                </tr>
-            </thead>
+    <main class="container">
+        <section class="booking-header">
+            <h1>My Bookings</h1>
+            <p>Welcome back, <%= user.name %>! Here are the events you are attending.</p>
+        </section>
 
-            <tbody>
-                <tr>
-                    <td>Tech Conference</td>
-                    <td>15 June 2026</td>
-                    <td>2</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <section class="booking-list">
+            <% if (bookings && bookings.length > 0) { %>
+                <div class="booking-grid">
+                    <% bookings.forEach(ticket => { %>
+                        <div class="booking-card">
+                            <div class="card-header">
+                                <h2><%= ticket.EventID.Title %></h2>
+                                <span class="status-badge <%= ticket.Status.toLowerCase() %>">
+                                    <%= ticket.Status %>
+                                </span>
+                            </div>
+                            
+                            <div class="card-body">
+                                <p><strong>Venue:</strong> <%= ticket.EventID.Venue %></p>
+                                <p><strong>Date:</strong> <%= new Date(ticket.EventID.Date).toLocaleDateString('en-ZA') %></p>
+                                <p><strong>Quantity:</strong> <%= ticket.Quantity %> Ticket(s)</p>
+                                <p><strong>Reference:</strong> #<%= ticket._id.toString().toUpperCase().slice(-6) %></p>
+                            </div>
 
+                            <div class="card-footer">
+                                <p class="price-total">Total: R<%= ticket.TotalPrice %></p>
+                                <a href="/event-details/<%= ticket.EventID._id %>" class="btn-secondary">View Event</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <img src="/Images/no-bookings.svg" alt="No Bookings Found" style="max-width: 200px;">
+                    <h3>No tickets found</h3>
+                    <p>It looks like you haven't booked any events yet.</p>
+                    <a href="/" class="btn-primary">Browse Events</a>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
 </body>
 </html>

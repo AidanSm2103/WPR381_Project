@@ -1,0 +1,194 @@
+/* ==========================================================================
+   ADMIN PORTAL STYLES (Final Polish Version)
+   ========================================================================== */
+
+/* --- 1. Layout & Animation --- */
+.admin-container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.admin-form-wrapper {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.animate-in {
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. Headers & Badges --- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+}
+
+.header-content h1 {
+    font-size: 2.2rem;
+    color: #111827;
+    margin-bottom: 5px;
+}
+
+.header-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* --- 3. The Form Card --- */
+.admin-card {
+    padding: 40px !important; /* Increased breathing room */
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- 4. Section Spacing --- */
+.form-section {
+    margin-bottom: 40px; /* Stronger separation between blocks */
+    padding: 10px 0;
+}
+
+.section-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #94a3b8;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+    font-weight: 800;
+}
+
+/* --- 5. Inputs & Labels --- */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 10px; /* Increased padding from input */
+    color: #334155;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    background: #fdfdfd;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-input:focus, .form-textarea:focus {
+    background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+/* --- 6. Pricing Icon Fix --- */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon .icon {
+    position: absolute;
+    left: 14px;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.input-with-icon .form-input {
+    padding-left: 35px; /* Prevent text overlap with 'R' */
+}
+
+/* --- 7. Layout & Actions --- */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 40px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 30px;
+}
+
+.btn-publish {
+    background: #111827;
+    color: white;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.btn-publish:hover {
+    background: #000000;
+    transform: translateY(-2px);
+}
+
+.helper-text {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+/* --- 8. Management Tables (Legacy support) --- */
+.table-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background: #f8fafc;
+    padding: 16px;
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* --- 9. Responsiveness --- */
+@media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .admin-card { padding: 25px !important; }
+}

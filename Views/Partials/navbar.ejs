@@ -1,13 +1,19 @@
 <nav class="navbar">
-    <div class="logo">
-        <a href="/">Smart Ticket</a>
+    <div class="container">
+        <div class="logo">
+            <a href="/">EventPlatform</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Events</a></li>
+            <li><a href="/contact">Support</a></li>
+            
+            <% if (user) { %>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout" class="btn btn-secondary" style="padding: 6px 12px; margin-left: 10px;">Logout (<%= user.name %>)</a></li>
+            <% } else { %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register" class="btn btn-primary" style="padding: 6px 12px; margin-left: 10px;">Register</a></li>
+            <% } %>
+        </ul>
     </div>
-
-    <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-    </ul>
 </nav>

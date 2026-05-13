@@ -1,4 +1,75 @@
-<h1>User Enquiries</h1>
-<ul>
-    <li>John Doe - Ticket Issue</li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Management | Admin</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+    <link rel="stylesheet" href="/CSS/admin.css">
+</head>
+<body class="bg-light">
+    <%- include('../partials/navbar') %>
+
+    <main class="container admin-container">
+        <header class="admin-header">
+            <div>
+                <h1>Support Tickets</h1>
+                <p class="text-muted">Manage user enquiries and platform feedback</p>
+            </div>
+            <div class="ticket-count">
+                <span class="count-number"><%= enquiries.length %></span>
+                <span class="count-label">Total Tickets</span>
+            </div>
+        </header>
+
+        <div class="table-card shadow-sm">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Date & User</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% enquiries.forEach(item => { %>
+                            <tr class="<%= item.status === 'Resolved' ? 'row-resolved' : '' %>">
+                                <td class="user-cell">
+                                    <span class="date-stamp"><%= new Date(item.createdAt).toLocaleDateString() %></span>
+                                    <strong><%= item.name %></strong>
+                                    <small><%= item.email %></small>
+                                </td>
+                                <td>
+                                    <span class="subject-tag"><%= item.subject %></span>
+                                </td>
+                                <td class="message-cell">
+                                    <p><%= item.message %></p>
+                                </td>
+                                <td>
+                                    <span class="status-badge <%= item.status.toLowerCase() %>">
+                                        <%= item.status %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (item.status !== 'Resolved') { %>
+                                        <form action="/admin/enquiries/resolve/<%= item._id %>" method="POST">
+                                            <button type="submit" class="btn-resolve">Mark Resolved</button>
+                                        </form>
+                                    <% } else { %>
+                                        <span class="text-success">✓ Complete</span>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

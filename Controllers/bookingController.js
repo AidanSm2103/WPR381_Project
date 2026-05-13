@@ -1,66 +1,87 @@
 const Ticket = require('../Models/Ticket');
 const Event = require('../Models/Event');
 
-// User Dashboard: Fetch their specific booking history
-exports.getUserDashboard = async (req, res) => {
-    try {
-        const bookings = await Ticket.find({ user: req.session.userId }).populate('event');
-        res.render('dashboard', { bookings });
-    } catch (err) {
-        res.status(500).send('Error loading dashboard');
-    }
-};
-
-// Admin Dashboard: Aggregate analytics for the business
-exports.getAdminAnalytics = async (req, res) => {
-    try {
-        const totalBookings = await Ticket.countDocuments();
-        const events = await Event.find().sort({ SoldTickets: -1 }); // Popular events first
-        
-        // Calculate total revenue and capacity usage
-        const totalRevenue = events.reduce((acc, curr) => acc + (curr.SoldTickets * curr.Price), 0);
-
-        res.render('Admin/analytics', { 
-            totalBookings, 
-            events, 
-            totalRevenue 
-        });
-    } catch (err) {
-        res.status(500).send('Error loading analytics');
-    }
-};
-
-// The Booking Logic with Capacity Validation
 exports.bookTicket = async (req, res) => {
     try {
-        const { eventId, quantity } = req.body;
-        const numQuantity = parseInt(quantity);
+        const { eventID, Quantity } = req.body;
+        const requestedQty = parseInt(Quantity);
 
-        const event = await Event.findById(eventId);
+        const event = await Event.findById(eventID);
         if (!event) return res.status(404).send('Event not found');
 
-        // Mandatory Capacity Check
-        const remainingSpace = event.Capacity - event.SoldTickets;
-        if (numQuantity > remainingSpace) {
-            return res.status(400).send('Not enough tickets available');
+        const currentSold = event.SoldTickets || 0;
+        const available = event.Capacity - currentSold;
+
+        if (requestedQty > available) {
+            return res.render('event-details', { 
+                event, 
+                error: `Booking failed. Only ${available} tickets remaining.` 
+            });
         }
 
-        // Create the ticket record
-        const ticket = new Ticket({
-            user: req.session.userId,
-            event: eventId,
-            quantity: numQuantity
+        const newTicket = new Ticket({
+            UserID: req.session.user.id,
+            EventID: eventID,
+            Quantity: requestedQty,
+            TotalPrice: requestedQty * event.Price,
+            Status: 'Confirmed'
         });
+        await newTicket.save();
 
-        await ticket.save();
-
-        // Update the event's sold count
-        event.SoldTickets += numQuantity;
+        event.SoldTickets = currentSold + requestedQty;
         await event.save();
 
-        res.redirect('/bookings');
+        res.redirect('/dashboard'); 
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Booking failed');
+        console.error("Booking Error:", err);
+        res.redirect('/');
+    }
+};
+
+exports.getUserDashboard = async (req, res) => {
+    try {
+        const history = await Ticket.find({ UserID: req.session.user.id })
+            .populate('EventID')
+            .sort({ createdAt: -1 }); // <-- MAKE SURE THERE IS NO .limit(3) HERE
+
+        res.render('dashboard', { 
+            user: req.session.user, 
+            recentBookings: history 
+        });
+    } catch (err) {
+        res.render('dashboard', { user: req.session.user, recentBookings: [] });
+    }
+};
+
+//Analytics aggregation and variable naming
+exports.getAdminAnalytics = async (req, res) => {
+    try {
+        // Fetch all events sorted by popularity
+        const events = await Event.find().sort({ SoldTickets: -1 });
+
+        // 1. Calculate Active Events
+        const activeEventsCount = events.length;
+
+        // 2. Sum the actual tickets sold across all events
+        // This calculates the true volume rather than the number of checkout transactions
+        const ticketsSoldTotal = events.reduce((acc, curr) => {
+            return acc + (curr.SoldTickets || 0);
+        }, 0);
+
+        // 3. Calculate Total Revenue
+        const totalRevenue = events.reduce((acc, curr) => {
+            return acc + ((curr.SoldTickets || 0) * curr.Price);
+        }, 0);
+        
+        // 4. Render using the exact names expected by the .ejs file
+        res.render('Admin/analytics', { 
+            ticketsSold: ticketsSoldTotal, 
+            activeEvents: activeEventsCount, 
+            totalRevenue: totalRevenue,
+            events: events 
+        });
+    } catch (err) {
+        console.error("Analytics Error:", err);
+        res.status(500).send('Error loading business analytics');
     }
 };

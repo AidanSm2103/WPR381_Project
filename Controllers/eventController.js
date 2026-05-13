@@ -1,72 +1,89 @@
 const Event = require('../Models/Event');
+const Ticket = require('../Models/Ticket'); // Needed for data integrity cleanup
 
-// Display all events (for both users and admins)
+// 1. PUBLIC: Homepage - Shows all upcoming events
 exports.getAllEvents = async (req, res) => {
     try {
-        const events = await Event.find();
-        res.render('index', { events });
+        const events = await Event.find().sort({ Date: 1 });
+        res.render('index', { events, error: null });
     } catch (err) {
-        res.status(500).send('Error fetching events');
+        res.render('index', { events: [], error: 'Error loading events' });
     }
 };
 
-// Logic to create a new event
-exports.createEvent = async (req, res) => {
+// 2. PUBLIC: Details - Shows specific event info and booking form
+exports.getEventDetails = async (req, res) => {
     try {
-        const { Title, Description, Date, Venue, Category, Capacity, Price } = req.body;
-        
-        const newEvent = new Event({
-            Title,
-            Description,
-            Date,
-            Venue,
-            Category,
-            Capacity,
-            Price
-        });
+        const event = await Event.findById(req.params.id);
+        if (!event) return res.redirect('/');
 
-        await newEvent.save();
-        res.redirect('/admin/events');
+        res.render('event-details', { 
+            event, 
+            error: null 
+        }); 
     } catch (err) {
-        res.status(500).send('Error creating event');
+        console.error("Details Fetch Error:", err);
+        res.redirect('/');
     }
 };
 
-// Get all events for the admin management table
+// 3. ADMIN: Table View - Displays management dashboard
 exports.getAdminEvents = async (req, res) => {
     try {
-        const events = await Event.find();
-        res.render('Admin/events', { events });
+        const events = await Event.find().sort({ createdAt: -1 });
+        // Standardized to 'Admin/manage-events' to match your route names
+        res.render('Admin/manage-events', { events }); 
     } catch (err) {
-        res.status(500).send('Error loading admin dashboard');
+        res.redirect('/dashboard');
     }
 };
 
-// Delete an event
-exports.deleteEvent = async (req, res) => {
+// 4. ADMIN: Create - Persists new event to MongoDB
+exports.createEvent = async (req, res) => {
     try {
-        await Event.findByIdAndDelete(req.params.id);
-        res.redirect('/admin/events');
+        const newEvent = new Event(req.body);
+        await newEvent.save();
+        res.redirect('/admin/manage-events');
     } catch (err) {
-        res.status(500).send('Error deleting event');
+        res.render('Admin/create-event', { error: 'Could not create event' });
     }
 };
 
-// Update an event
+// 5. ADMIN: Edit Page - Fetches existing data for the update form
+exports.getEditEventPage = async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        res.render('Admin/edit-event', { event });
+    } catch (err) {
+        res.redirect('/admin/manage-events');
+    }
+};
+
+// 6. ADMIN: Update - Persists modifications to an existing event
 exports.updateEvent = async (req, res) => {
     try {
-        const { Title, Description, Date, Venue, Category, Capacity, Price } = req.body;
-        await Event.findByIdAndUpdate(req.params.id, {
-            Title,
-            Description,
-            Date,
-            Venue,
-            Category,
-            Capacity,
-            Price
-        });
-        res.redirect('/admin/events');
+        await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.redirect('/admin/manage-events');
     } catch (err) {
-        res.status(500).send('Error updating event');
+        console.error("Update Error:", err);
+        res.redirect('/admin/manage-events');
+    }
+};
+
+// 7. ADMIN: Delete - Removes event and associated tickets (Requirement 35)
+exports.deleteEvent = async (req, res) => {
+    try {
+        const eventId = req.params.id;
+
+        // Cleanup: Remove all tickets associated with this event to maintain data integrity
+        await Ticket.deleteMany({ EventID: eventId });
+
+        // Removal: Delete the event document from MongoDB
+        await Event.findByIdAndDelete(eventId);
+
+        res.redirect('/admin/manage-events');
+    } catch (err) {
+        console.error("Delete Error:", err);
+        res.redirect('/admin/manage-events');
     }
 };

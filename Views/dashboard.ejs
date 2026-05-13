@@ -3,33 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <title>My Dashboard | Advanced Events</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+    <link rel="stylesheet" href="/CSS/dashboard.css">
 </head>
-<body>
-
+<body class="bg-light">
     <%- include('partials/navbar') %>
 
-    <section class="dashboard">
+    <main class="container dashboard-container">
+        <section class="user-profile-card">
+            <% if (user) { %>
+                <div class="user-avatar <%= user.role === 'Admin' ? 'admin-avatar' : '' %>">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+                <div class="user-details">
+                    <h2>Welcome back, <%= user.name %>!</h2>
+                    <p>Email: <%= user.email %></p>
+                    <div style="margin-top: 8px;">
+                        <span class="role-badge <%= user.role === 'Admin' ? 'badge-admin' : 'badge-user' %>">
+                            Account: <%= user.role %>
+                        </span>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="user-details" style="width: 100%; text-align: center;">
+                    <h2>Session Expired</h2>
+                    <p>Please <a href="/login" style="color: #2563eb; font-weight: 600;">log in</a> to view your dashboard.</p>
+                </div>
+            <% } %>
+        </section>
 
-        <div class="dashboard-card">
-            <h3>Total Bookings</h3>
-            <p></p>
+        <div class="dashboard-grid">
+            <% if (user && user.role === 'Admin') { %>
+                <section class="dashboard-card admin-section">
+                    <div class="card-header">
+                        <h3>Administrative Tools</h3>
+                        <span class="icon">⚙️</span>
+                    </div>
+                    <div class="action-grid">
+                        <a href="/admin/create-event" class="btn-admin">
+                            <strong>Add Event</strong>
+                            <span>Publish new experience</span>
+                        </a>
+                        <a href="/admin/manage-events" class="btn-admin">
+                            <strong>Manage Hub</strong>
+                            <span>Edit or delete events</span>
+                        </a>
+                        <a href="/admin/enquiries" class="btn-admin">
+                            <strong>Support Desk</strong>
+                            <span>Resolve user tickets</span>
+                        </a>
+                        <a href="/admin/analytics" class="btn-admin">
+                            <strong>Live Analytics</strong>
+                            <span>View revenue & stats</span>
+                        </a>
+                    </div>
+                </section>
+            <% } %>
+
+            <section class="dashboard-card ledger-section <%= user && user.role === 'Admin' ? '' : 'full-width' %>">
+                <div class="card-header">
+                    <h3>My Ticket History</h3>
+                    <span class="icon">🎟️</span>
+                </div>
+                
+                <div class="ticket-list">
+                    <% if (typeof recentBookings !== 'undefined' && recentBookings.length > 0) { %>
+                        <% recentBookings.forEach(booking => { %>
+                            <div class="ticket-card">
+                                <div class="ticket-info">
+                                    <h4><%= booking.EventID ? booking.EventID.Title : 'Event No Longer Available' %></h4>
+                                    <div class="ticket-meta">
+                                        <span>Qty: <strong><%= booking.Quantity %></strong></span>
+                                        <span>Total: <strong>R<%= booking.TotalPrice %></strong></span>
+                                        <% if (booking.EventID) { %>
+                                            <span>Date: <%= new Date(booking.EventID.Date).toLocaleDateString() %></span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="ticket-status">
+                                    <%= booking.Status %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="alert alert-empty">
+                            No purchases yet. <a href="/">Explore events</a>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
         </div>
+    </main>
 
-        <div class="dashboard-card">
-            <h3>Upcoming Events</h3>
-            <p></p>
-        </div>
-
-        <div class="dashboard-card">
-            <h3>Tickets Sold</h3>
-            <p></p>
-        </div>
-
-    </section>
-
+    <%- include('partials/footer') %>
 </body>
 </html>

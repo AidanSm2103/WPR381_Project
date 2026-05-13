@@ -3,11 +3,11 @@ const router = express.Router();
 const enquiryController = require('../Controllers/enquiryController');
 const { ensureAuthenticated, ensureAdmin } = require('../Middleware/authMiddleware');
 
-// Public route to submit the form
+// --- PUBLIC ROUTES ---
+router.get('/contact', enquiryController.getContactPage);
 router.post('/contact', enquiryController.submitEnquiry);
 
-// Admin routes for management
+// --- ADMIN ROUTES ---
 router.get('/admin/enquiries', ensureAuthenticated, ensureAdmin, enquiryController.getAdminEnquiries);
-router.post('/admin/enquiries/resolve/:id', ensureAuthenticated, ensureAdmin, enquiryController.resolveEnquiry);
 
 module.exports = router;

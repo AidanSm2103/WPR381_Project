@@ -1,41 +1,55 @@
 const Enquiry = require('../Models/Enquiry');
 
-// Save a new enquiry from the contact form
+// Render the public contact form
+exports.getContactPage = (req, res) => {
+    res.render('contact', { success: null, error: null });
+};
+
+// Handle form submission and store in database
 exports.submitEnquiry = async (req, res) => {
     try {
-        const { Name, Email, Message } = req.body;
-        
+        const { name, email, subject, message } = req.body;
+
         const newEnquiry = new Enquiry({
-            Name,
-            Email,
-            Message
+            name,
+            email,
+            subject,
+            message
         });
 
-        await newEnquiry.save();
-        // Redirect back to contact with a success state or just the page
-        res.redirect('/contact');
+        await newEnquiry.save(); // Store enquiry in database [cite: 71]
+
+        res.render('contact', { 
+            success: 'Thank you! Your enquiry has been submitted successfully.', 
+            error: null 
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Failed to send enquiry.');
+        res.render('contact', { 
+            success: null, 
+            error: 'Failed to submit enquiry. Please try again.' 
+        });
     }
 };
 
-// Admin view to see all enquiries
+// Admin logic to view all enquiries 
 exports.getAdminEnquiries = async (req, res) => {
     try {
         const enquiries = await Enquiry.find().sort({ createdAt: -1 });
         res.render('Admin/enquiries', { enquiries });
     } catch (err) {
-        res.status(500).send('Error loading enquiries.');
+        res.status(500).send('Error retrieving enquiries.');
     }
 };
 
-// Mark an enquiry as resolved
 exports.resolveEnquiry = async (req, res) => {
     try {
-        await Enquiry.findByIdAndUpdate(req.params.id, { Status: 'Resolved' });
+        // Use Mongoose to find the specific enquiry by ID and update its status
+        await Enquiry.findByIdAndUpdate(req.params.id, { status: 'Resolved' });
+        
+        // CRITICAL: Redirect back to the full admin path to refresh the view
         res.redirect('/admin/enquiries');
     } catch (err) {
-        res.status(500).send('Error updating enquiry.');
+        console.error("Resolution Error:", err);
+        res.status(500).send('Error updating enquiry status.');
     }
 };

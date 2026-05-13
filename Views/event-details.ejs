@@ -3,28 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
-
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/events.css">
+    <title><%= event.Title %> | Details</title>
+    <link rel="stylesheet" href="/CSS/main.css">
+    <link rel="stylesheet" href="/CSS/events.css">
+    <style>
+        /* Quick internal fix for layout polish */
+        .event-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+            align-items: start;
+        }
+        .event-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .booking-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .total-preview {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #e2e8f0;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .event-details-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-
     <%- include('partials/navbar') %>
 
-    <section class="event-details">
-        <img src="/images/Tech_Conference.jpg" alt="event">
+    <main class="container">
+        <div class="event-details-grid">
+            <div class="event-image">
+                <img src="<%= event.ImageURL || 'https://via.placeholder.com/800x600?text=Event+Image' %>" alt="<%= event.Title %>">
+            </div>
 
-        <div>
-            <h1>Tech Conference 2026</h1>
-            <p>This conference will teach the youth about the future of tech including AI, machine learning and more!</p>
-            <p>Date: 15 June 2026</p>
-            <p>Available Tickets: </p>
+            <div class="event-info">
+                <span class="category-badge"><%= event.Category || 'General' %></span>
+                <h1 style="font-size: 2.5rem; margin: 10px 0;"><%= event.Title %></h1>
 
-            <button class="btn">Book Ticket</button>
+                <div class="details-meta" style="margin-bottom: 20px; color: #64748b;">
+                    <p><strong>📍 Venue:</strong> <%= event.Venue %></p>
+                    <p><strong>📅 Date:</strong> <%= new Date(event.Date).toLocaleDateString() %></p>
+                    <p><strong>🎟️ Availability:</strong> <%= event.Capacity - (event.SoldTickets || 0) %> left</p>
+                </div>
+
+                <p style="line-height: 1.6; color: #334155; margin-bottom: 30px;">
+                    <%= event.Description %>
+                </p>
+
+                <div class="booking-card">
+                    <% if (user) { %>
+                        <h3 style="margin-top:0;">Reserve Tickets</h3>
+                        <form action="/book-ticket" method="POST">
+                            <input type="hidden" name="eventID" value="<%= event._id %>">
+
+                            <div class="form-group">
+                                <label style="display:block; margin-bottom:8px;">Quantity:</label>
+                                <input type="number" id="quantity" name="Quantity" value="1" min="1" 
+                                    data-price="<%= event.Price %>"
+                                    max="<%= event.Capacity - (event.SoldTickets || 0) %>" 
+                                    style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;" required>
+                            </div>
+
+                            <div class="total-preview">
+                                <span>Total: </span>
+                                <span id="total-price" style="color: #2563eb;">R<%= event.Price.toFixed(2) %></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 12px;">
+                                Confirm Booking
+                            </button>
+                        </form>
+                    <% } else { %>
+                        <div style="text-align: center; padding: 10px;">
+                            <p style="color: #991b1b;">You must be logged in to book.</p>
+                            <a href="/login" class="btn btn-primary">Login to Book</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
         </div>
+    </main>
 
-    </section>
+    <%- include('partials/footer') %>
 
+    <script>
+        const input = document.getElementById('quantity');
+        const display = document.getElementById('total-price');
+        
+        if (input && display) {
+            const price = parseFloat(input.getAttribute('data-price'));
+            
+            input.addEventListener('input', () => {
+                let qty = parseInt(input.value) || 0;
+                // Simple math for the live preview
+                display.innerText = `R${(price * qty).toFixed(2)}`;
+            });
+        }
+    </script>
 </body>
 </html>

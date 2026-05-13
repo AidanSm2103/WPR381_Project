@@ -1,10 +1,23 @@
 const mongoose = require('mongoose');
 
 const EnquirySchema = new mongoose.Schema({
-    Name: { type: String, required: true },
-    Email: { type: String, required: true },
-    Message: { type: String, required: true },
-    Status: { 
+    name: { 
+        type: String, 
+        required: true 
+    },
+    email: { 
+        type: String, 
+        required: true 
+    },
+    subject: { 
+        type: String, 
+        required: true 
+    },
+    message: { 
+        type: String, 
+        required: true 
+    },
+    status: { 
         type: String, 
         enum: ['Pending', 'Resolved'], 
         default: 'Pending' 
