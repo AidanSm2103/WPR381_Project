@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 
 // 5. Database Connection
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/EventPlatform';
-mongoose.connect(dbURI).then(() => console.log('✅ MongoDB connected.'));
+mongoose.connect(dbURI).then(() => console.log('MongoDB connected.'));
 
 // --- 6. Route Handlers (Ordered by Specificity) ---
 
@@ -78,4 +78,4 @@ app.use((req, res) => {
     });
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

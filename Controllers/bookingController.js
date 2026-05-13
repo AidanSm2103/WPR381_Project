@@ -42,7 +42,7 @@ exports.getUserDashboard = async (req, res) => {
     try {
         const history = await Ticket.find({ UserID: req.session.user.id })
             .populate('EventID')
-            .sort({ createdAt: -1 }); // <-- MAKE SURE THERE IS NO .limit(3) HERE
+            .sort({ createdAt: -1 });
 
         res.render('dashboard', { 
             user: req.session.user, 
@@ -56,14 +56,9 @@ exports.getUserDashboard = async (req, res) => {
 //Analytics aggregation and variable naming
 exports.getAdminAnalytics = async (req, res) => {
     try {
-        // Fetch all events sorted by popularity
+
         const events = await Event.find().sort({ SoldTickets: -1 });
-
-        // 1. Calculate Active Events
         const activeEventsCount = events.length;
-
-        // 2. Sum the actual tickets sold across all events
-        // This calculates the true volume rather than the number of checkout transactions
         const ticketsSoldTotal = events.reduce((acc, curr) => {
             return acc + (curr.SoldTickets || 0);
         }, 0);
@@ -73,7 +68,6 @@ exports.getAdminAnalytics = async (req, res) => {
             return acc + ((curr.SoldTickets || 0) * curr.Price);
         }, 0);
         
-        // 4. Render using the exact names expected by the .ejs file
         res.render('Admin/analytics', { 
             ticketsSold: ticketsSoldTotal, 
             activeEvents: activeEventsCount, 

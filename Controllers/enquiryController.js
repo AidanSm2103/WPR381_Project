@@ -1,11 +1,10 @@
 const Enquiry = require('../Models/Enquiry');
 
-// Render the public contact form
 exports.getContactPage = (req, res) => {
     res.render('contact', { success: null, error: null });
 };
 
-// Handle form submission and store in database
+
 exports.submitEnquiry = async (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
@@ -17,7 +16,7 @@ exports.submitEnquiry = async (req, res) => {
             message
         });
 
-        await newEnquiry.save(); // Store enquiry in database [cite: 71]
+        await newEnquiry.save();
 
         res.render('contact', { 
             success: 'Thank you! Your enquiry has been submitted successfully.', 
@@ -43,10 +42,8 @@ exports.getAdminEnquiries = async (req, res) => {
 
 exports.resolveEnquiry = async (req, res) => {
     try {
-        // Use Mongoose to find the specific enquiry by ID and update its status
         await Enquiry.findByIdAndUpdate(req.params.id, { status: 'Resolved' });
-        
-        // CRITICAL: Redirect back to the full admin path to refresh the view
+
         res.redirect('/admin/enquiries');
     } catch (err) {
         console.error("Resolution Error:", err);

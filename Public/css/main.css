@@ -98,7 +98,6 @@ body {
     font-weight: 500;
 }
 
-/* FIX: This prevents the red box from appearing when there is no text */
 .alert:empty {
     display: none;
 }

@@ -65,7 +65,7 @@
 
 .contact-form-container textarea {
     height: 150px;
-    resize: vertical; /* Allows user to grow the box but not shrink it too much */
+    resize: vertical;
 }
 
 /* --- 3. Feedback Alerts --- */

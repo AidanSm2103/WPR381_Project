@@ -1,5 +1,5 @@
 const Event = require('../Models/Event');
-const Ticket = require('../Models/Ticket'); // NEW: Required for Analytics math
+const Ticket = require('../Models/Ticket');
 
 // 1. Render the Create Event Form
 exports.getCreateEventPage = (req, res) => {
@@ -27,7 +27,7 @@ exports.createEvent = async (req, res) => {
 exports.getManageEventsPage = async (req, res) => {
     try {
         const events = await Event.find().sort({ Date: 1 });
-        // Using 'Admin/events' to match the filename in your screenshot!
+
         res.render('Admin/events', { events }); 
     } catch (err) {
         console.error(err);
@@ -45,11 +45,6 @@ exports.deleteEvent = async (req, res) => {
         res.redirect('/admin/manage-events');
     }
 };
-
-
-// ==========================================
-// --- NEW LOGIC FOR EDITING & ANALYTICS ---
-// ==========================================
 
 // 5. Render the Edit Event Page
 exports.getEditEventPage = async (req, res) => {
@@ -83,7 +78,6 @@ exports.updateEvent = async (req, res) => {
 // 7. Calculate and Render Analytics
 exports.getAnalyticsPage = async (req, res) => {
     try {
-        // Fetch all tickets to calculate totals
         const tickets = await Ticket.find();
         
         let totalRevenue = 0;
@@ -94,7 +88,6 @@ exports.getAnalyticsPage = async (req, res) => {
             ticketsSold += ticket.Quantity;
         });
 
-        // Count how many events currently exist
         const activeEvents = await Event.countDocuments();
 
         res.render('Admin/analytics', {

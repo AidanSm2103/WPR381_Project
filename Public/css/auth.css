@@ -22,11 +22,10 @@
     font-size: 1.8rem;
 }
 
-/* Optimized for dual-input rows (e.g., First Name/Last Name) */
 .form-row {
     display: flex;
     gap: 15px;
-    margin-bottom: 5px; /* Reduced to keep items tight */
+    margin-bottom: 5px;
 }
 
 .form-group {
@@ -47,7 +46,7 @@
     width: 100%;
     padding: 12px;
     border: 1px solid #e2e8f0;
-    border-radius: 8px; /* Matching the global button radius */
+    border-radius: 8px;
     font-size: 1rem;
     transition: all 0.2s ease;
     background: #f8fafc;
@@ -63,7 +62,7 @@
 .auth-form button {
     width: 100%;
     margin-top: 15px;
-    padding: 14px; /* Slightly larger for better mobile tap target */
+    padding: 14px;
 }
 
 .auth-footer {

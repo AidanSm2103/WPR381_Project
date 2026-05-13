@@ -1,5 +1,5 @@
 const Event = require('../Models/Event');
-const Ticket = require('../Models/Ticket'); // Needed for data integrity cleanup
+const Ticket = require('../Models/Ticket');
 
 // 1. PUBLIC: Homepage - Shows all upcoming events
 exports.getAllEvents = async (req, res) => {
@@ -31,7 +31,6 @@ exports.getEventDetails = async (req, res) => {
 exports.getAdminEvents = async (req, res) => {
     try {
         const events = await Event.find().sort({ createdAt: -1 });
-        // Standardized to 'Admin/manage-events' to match your route names
         res.render('Admin/manage-events', { events }); 
     } catch (err) {
         res.redirect('/dashboard');
@@ -75,10 +74,8 @@ exports.deleteEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
 
-        // Cleanup: Remove all tickets associated with this event to maintain data integrity
         await Ticket.deleteMany({ EventID: eventId });
 
-        // Removal: Delete the event document from MongoDB
         await Event.findByIdAndDelete(eventId);
 
         res.redirect('/admin/manage-events');
