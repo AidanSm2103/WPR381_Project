@@ -1,0 +1,119 @@
+[{
+  "_id": {
+    "$oid": "6a04c64931af733ab1ed8098"
+  },
+  "name": "John",
+  "email": "John@Doe.com",
+  "subject": "My Money",
+  "message": "Its low",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T18:43:21.325Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T18:52:21.739Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d401ffab9ac9e72ea878"
+  },
+  "name": "John",
+  "email": "John@Doe.com",
+  "subject": "The event, racing",
+  "message": "The cars were slow",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T19:41:53.996Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T19:42:33.793Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d6da4efce7b9283dbd28"
+  },
+  "name": "John",
+  "email": "John@Doe.com",
+  "subject": "The IT seminar",
+  "message": "It was awfull",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T19:54:02.017Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:00:17.639Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d81e4727bbb05f630632"
+  },
+  "name": "John",
+  "email": "John@Doe.com",
+  "subject": "Grayzone Event",
+  "message": "It wasnt as good. ",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T19:59:26.937Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:00:15.629Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04dce1b1f8654710074b14"
+  },
+  "name": "John",
+  "email": "John@Doe.co.za",
+  "subject": "Photoshop",
+  "message": "Why no course on it?",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T20:19:45.776Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:20:33.625Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04dda1b1f8654710074b16"
+  },
+  "name": "John",
+  "email": "John@Doe.co.za",
+  "subject": "Music",
+  "message": "I dont like music.",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T20:22:57.171Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:23:51.164Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04df17b1f8654710074b18"
+  },
+  "name": "John",
+  "email": "John@Doe.co.za",
+  "subject": "Plants",
+  "message": "They are smelly and dirty.",
+  "status": "Resolved",
+  "createdAt": {
+    "$date": "2026-05-13T20:29:11.782Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:30:24.948Z"
+  },
+  "__v": 0
+}]

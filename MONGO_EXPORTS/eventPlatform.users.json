@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "6a04a8896fed8d5d3d098a40"
+  },
+  "FName": "Tobie",
+  "SName": "Jansen",
+  "Email": "Test@Test.com",
+  "Password": "$2b$10$jSifszuX9pqCUwIndrqDueiZcJdlA/6WOUsOYxvuT65dg1D1CTNTK",
+  "role": "Admin",
+  "createdAt": {
+    "$date": "2026-05-13T16:36:25.625Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T16:36:25.625Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04b48a4715ff937b184d30"
+  },
+  "FName": "Admin",
+  "SName": "Admin",
+  "Email": "Admin@admin.com",
+  "Password": "$2b$10$xTz9dJ8Vr.ZCGPhaN.B32eTWceQZLgYKLtTa29mVDGn6w74vPVzq.",
+  "role": "Admin",
+  "createdAt": {
+    "$date": "2026-05-13T17:27:38.357Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T17:27:38.357Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04b85231cdedc2bb264d64"
+  },
+  "FName": "John",
+  "SName": "Doe",
+  "Email": "John@Doe.co.za",
+  "Password": "$2b$10$q3PVAIyPsLlqRIeTUFLaf.g7zUnqoldBo5OFaMMMdPsbW2vVFxkXO",
+  "role": "User",
+  "createdAt": {
+    "$date": "2026-05-13T17:43:46.612Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T17:43:46.612Z"
+  },
+  "__v": 0
+}]

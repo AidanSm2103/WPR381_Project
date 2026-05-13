@@ -1,0 +1,138 @@
+[{
+  "_id": {
+    "$oid": "6a04d0e7ffab9ac9e72ea871"
+  },
+  "Title": "Apex GT3 Endurance Sprint",
+  "Description": "Experience the roar of GT3-spec machinery in a grueling 3-hour sprint. This event features a dedicated BMW M-Series paddock and a pit-lane walk for VIP ticket holders.",
+  "Date": {
+    "$date": "2026-06-20T06:00:00.000Z"
+  },
+  "Venue": "Kyalami Grand Prix Circuit",
+  "Category": "Motorsport",
+  "Capacity": 150,
+  "SoldTickets": 13,
+  "Price": 450,
+  "ImageURL": "https://images.unsplash.com/photo-1688391646622-c0d8ac7181a2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "createdAt": {
+    "$date": "2026-05-13T19:28:39.453Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T21:10:05.086Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d1f6ffab9ac9e72ea872"
+  },
+  "Title": "Scalable Node.js & PostgreSQL Masterclass",
+  "Description": "A deep dive into building resilient backends using Node.js and PostgreSQL. We will cover database normalization, API optimization, and real-time telemetry integration.",
+  "Date": {
+    "$date": "2026-06-26T07:00:00.000Z"
+  },
+  "Venue": "Innovation Hub, Pretoria",
+  "Category": "Technology",
+  "Capacity": 18,
+  "SoldTickets": 1,
+  "Price": 850,
+  "ImageURL": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+  "createdAt": {
+    "$date": "2026-05-13T19:33:10.658Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T19:53:34.857Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d22bffab9ac9e72ea873"
+  },
+  "Title": "Adobe Lightroom: Advanced Post-Processing",
+  "Description": "Elevate your digital photography by mastering Adobe Lightroom. Learn advanced masking techniques, color grading for landscapes, and efficient catalog management to solve common post-processing glitches.",
+  "Date": {
+    "$date": "2026-07-02T17:00:00.000Z"
+  },
+  "Venue": "The Creative Studio, Johannesburg",
+  "Category": "Photography",
+  "Capacity": 25,
+  "SoldTickets": 3,
+  "Price": 300,
+  "ImageURL": "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop",
+  "createdAt": {
+    "$date": "2026-05-13T19:34:03.128Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:19:06.029Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d265ffab9ac9e72ea874"
+  },
+  "Title": "Gray Zone: Tactical Operations Tournament",
+  "Description": "Form your squad for a high-stakes tactical shooter tournament. This event focuses on team coordination, objective-based gameplay, and strategic maneuvering in competitive environments.",
+  "Date": {
+    "$date": "2026-07-15T08:00:00.000Z"
+  },
+  "Venue": "Nexus Gaming Arena",
+  "Category": "Gaming",
+  "Capacity": 63,
+  "SoldTickets": 8,
+  "Price": 150,
+  "ImageURL": "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop",
+  "createdAt": {
+    "$date": "2026-05-13T19:35:01.706Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T19:59:00.673Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d2afffab9ac9e72ea875"
+  },
+  "Title": "Rooftop Jazz & Tapas Night",
+  "Description": "Join us for an evening of live jazz as the sun sets over the city. Tickets include a curated selection of artisanal tapas and local wine pairings for a premium social experience.",
+  "Date": {
+    "$date": "2026-08-05T13:30:00.000Z"
+  },
+  "Venue": "Sky-High Terrace, Sandton",
+  "Category": "Music",
+  "Capacity": 80,
+  "SoldTickets": 5,
+  "Price": 550,
+  "ImageURL": "https://images.unsplash.com/photo-1621275471769-e6aa344546d5?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "createdAt": {
+    "$date": "2026-05-13T19:36:15.053Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:22:21.276Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a04d2edffab9ac9e72ea876"
+  },
+  "Title": "Green Horizons: IoT in Conservation",
+  "Description": "Explore how IoT telemetry and satellite imagery are being used to monitor water quality and environmental health. This symposium highlights technical solutions for real-world ecological challenges at local dams.",
+  "Date": {
+    "$date": "2026-08-12T09:00:00.000Z"
+  },
+  "Venue": "Science Center Auditorium",
+  "Category": "Motorsport",
+  "Capacity": 120,
+  "SoldTickets": 5,
+  "Price": 200,
+  "ImageURL": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
+  "createdAt": {
+    "$date": "2026-05-13T19:37:17.629Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-13T20:28:42.244Z"
+  },
+  "__v": 0
+}]
